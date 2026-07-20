@@ -24,6 +24,7 @@ export default function CpanelPage() {
   });
 
   const [newDomaine, setNewDomaine] = useState("");
+  const [messages, setMessages] = useState([]);
   const [feedback, setFeedback] = useState(null);
 
  useEffect(() => {
@@ -50,12 +51,13 @@ export default function CpanelPage() {
   verifierToken();
 }, []);
 
-  useEffect(() => {
-    if (token) {
-      fetchEntreprises();
-      fetchDomaines();
-    }
-  }, [token]);
+  uuseEffect(() => {
+  if (token) {
+    fetchEntreprises();
+    fetchDomaines();
+    fetchMessages();
+  }
+}, [token]);
 
   const authHeader = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -68,6 +70,10 @@ export default function CpanelPage() {
     const res = await axios.get(`${API}/domaines`);
     setDomaines(res.data);
   };
+  const fetchMessages = async () => {
+  const res = await axios.get(`${API}/messages`, authHeader);
+  setMessages(res.data);
+};
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -157,6 +163,11 @@ export default function CpanelPage() {
     await axios.delete(`${API}/domaines/${id}`, authHeader);
     fetchDomaines();
   };
+  const handleDeleteMessage = async (id) => {
+  if (!confirm("Supprimer ce message ?")) return;
+  await axios.delete(`${API}/messages/${id}`, authHeader);
+  fetchMessages();
+};
 
   if (checking) return null;
 
@@ -274,6 +285,22 @@ export default function CpanelPage() {
             Domaines
           </button>
         </nav>
+        <button
+  onClick={() => setActiveTab("messages")}
+  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+    activeTab === "messages"
+      ? "bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white shadow-lg shadow-indigo-950/50"
+      : "text-zinc-400 hover:bg-white/5 hover:text-white"
+  }`}
+>
+  <i className="bi bi-envelope"></i>
+  Messages
+  {messages.length > 0 && (
+    <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+      {messages.length}
+    </span>
+  )}
+</button>
 
         <div className="p-3 border-t border-white/5">
           <button
@@ -291,7 +318,7 @@ export default function CpanelPage() {
         {/* TOP BAR */}
         <div className="h-20 bg-white border-b border-zinc-200 flex items-center justify-between px-8 shrink-0">
           <h1 className="text-lg font-bold text-zinc-900">
-            {activeTab === "entreprises" ? "Gestion des entreprises" : "Gestion des domaines"}
+            {activeTab === "entreprises" ? "Gestion des entreprises" : activeTab === "domaines" ? "Gestion des domaines" : "Messages reçus"}
           </h1>
           <div className="flex items-center gap-3">
             <div className="text-right">
@@ -498,6 +525,44 @@ export default function CpanelPage() {
               </div>
             </div>
           )}
+          {activeTab === "messages" && (
+  <div className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm">
+    <div className="px-6 py-4 border-b border-zinc-100">
+      <h2 className="text-sm font-bold text-zinc-900">Messages reçus via le formulaire de contact</h2>
+    </div>
+    {messages.length === 0 ? (
+      <div className="text-center py-16">
+        <i className="bi bi-envelope-open text-3xl text-zinc-300"></i>
+        <p className="text-sm text-zinc-500 font-semibold mt-3">Aucun message pour l'instant.</p>
+      </div>
+    ) : (
+      <div className="divide-y divide-zinc-100">
+        {messages.map((m) => (
+          <div key={m.idMessage} className="px-6 py-4">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <p className="text-sm font-bold text-zinc-900">{m.nom}</p>
+                <p className="text-xs text-zinc-500 font-medium">{m.email}</p>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <span className="text-[11px] text-zinc-400 font-medium">
+                  {new Date(m.dateEnvoi).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" })}
+                </span>
+                <button
+                  onClick={() => handleDeleteMessage(m.idMessage)}
+                  className="text-xs font-bold text-red-600 hover:underline"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </div>
+            <p className="text-sm text-zinc-700 mt-2 leading-relaxed">{m.message}</p>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
         </main>
       </div>
     </div>
