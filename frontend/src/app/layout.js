@@ -204,7 +204,7 @@ export default function RootLayout({ children }) {
           </div>
         )}
 
-        <main className="w-full flex-grow bg-white">{children}</main>
+        <main key={pathname} className={`w-full flex-grow bg-white page-transition ${!isCpanel && !isHome ? "pt-20 sm:pt-24" : ""}`}>{children}</main>
 
         {!isCpanel && (
           <footer className="w-full bg-zinc-200 text-xs pt-16 pb-8 border-t border-zinc-00">
