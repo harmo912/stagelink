@@ -65,6 +65,7 @@ export default function RootLayout({ children }) {
   ];
 
   const slideCount = TOTAL_IMAGES + 1;
+  const darkHeader = scrolled || !isHome;
 
   return (
     <html lang="fr" className={`${display.variable} ${body.variable}`}>
@@ -76,7 +77,7 @@ export default function RootLayout({ children }) {
         {!isCpanel && (
           <header
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-              scrolled
+              darkHeader
                 ? "bg-white/80 backdrop-blur-xl border-b border-zinc-200 shadow-sm"
                 : "bg-transparent border-b border-transparent"
             }`}
@@ -86,7 +87,7 @@ export default function RootLayout({ children }) {
                 <img
                   src="/logo.png"
                   alt="StageLink"
-                  className={`h-11 sm:h-14 w-auto object-contain ${!scrolled ? "drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]" : ""}`}
+                  className={`h-11 sm:h-14 w-auto object-contain ${!darkHeader ? "drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]" : ""}`}
                   onError={(e) => {
                     e.target.style.display = "none";
                     e.target.nextSibling.style.display = "block";
@@ -94,7 +95,7 @@ export default function RootLayout({ children }) {
                 />
                 <span
                   style={{ fontFamily: "var(--font-display)" }}
-                  className={`hidden text-xl font-bold tracking-tight ${scrolled ? "text-zinc-900" : "text-white"}`}
+                  className={`hidden text-xl font-bold tracking-tight ${darkHeader ? "text-zinc-900" : "text-white"}`}
                 >
                   StageLink
                 </span>
@@ -106,7 +107,7 @@ export default function RootLayout({ children }) {
                     key={link.href}
                     href={link.href}
                     className={`text-sm font-medium transition-colors ${
-                      scrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"
+                      darkHeader ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -124,7 +125,7 @@ export default function RootLayout({ children }) {
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={`md:hidden w-11 h-11 rounded-xl transition-colors border flex items-center justify-center ${
-                  scrolled ? "bg-zinc-100 border-zinc-200 text-zinc-900" : "bg-white/10 backdrop-blur-md border-white/20 text-white"
+                  darkHeader ? "bg-zinc-100 border-zinc-200 text-zinc-900" : "bg-white/10 backdrop-blur-md border-white/20 text-white"
                 }`}
                 aria-label="Ouvrir le menu"
               >
@@ -205,7 +206,7 @@ export default function RootLayout({ children }) {
           </div>
         )}
 
-<main key={pathname} className={`w-full flex-grow bg-white page-transition ${!isCpanel && !isHome ? "pt-20 sm:pt-24" : ""}`}>{children}</main>
+        <main key={pathname} className={`w-full flex-grow bg-white page-transition ${!isCpanel && !isHome ? "pt-20 sm:pt-24" : ""}`}>{children}</main>
 
         {!isCpanel && (
           <footer className="w-full bg-zinc-200 text-xs pt-16 pb-8 border-t border-zinc-00">
