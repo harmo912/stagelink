@@ -37,3 +37,17 @@ next-route-announcer,
 [data-turbopack-feedback] {
   display: none !important;
 }
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: fadeInPage 0.35s ease-out;
+}
