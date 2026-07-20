@@ -65,7 +65,7 @@ export default function RootLayout({ children }) {
   ];
 
   const slideCount = TOTAL_IMAGES + 1;
-  const darkHeader = scrolled || !isHome;
+  const darkHeader = scrolled;
 
   return (
     <html lang="fr" className={`${display.variable} ${body.variable}`}>
@@ -161,7 +161,7 @@ export default function RootLayout({ children }) {
           </header>
         )}
 
-        {isHome && (
+        {!isCpanel && (
           <div className="relative w-full h-[420px] sm:h-[540px] md:h-[620px] bg-zinc-900 overflow-hidden">
             <div
               className="absolute inset-0 flex h-full"
@@ -206,7 +206,7 @@ export default function RootLayout({ children }) {
           </div>
         )}
 
-        <main key={pathname} className={`w-full flex-grow bg-white page-transition ${!isCpanel && !isHome ? "pt-20 sm:pt-24" : ""}`}>{children}</main>
+        <main key={pathname} className="w-full flex-grow bg-white page-transition">{children}</main>
 
         {!isCpanel && (
           <footer className="w-full bg-zinc-200 text-xs pt-16 pb-8 border-t border-zinc-00">
