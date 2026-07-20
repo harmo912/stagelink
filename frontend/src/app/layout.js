@@ -216,21 +216,26 @@ export default function RootLayout({ children }) {
                   <img src="/logo.png" alt="StageLink" className="h-9 w-auto object-contain" onError={(e) => (e.target.style.display = "none")} />
                 </div>
                 <p className="max-w-xs text-zinc-500 font-medium leading-relaxed">
-                  Annuaire des entreprises béninoises, classées par domaine d'activité.
+                  StageLink recense les entreprises béninoises par domaine d'activité et par ville,
+                  pour aider chacun à trouver rapidement le bon contact professionnel.
                 </p>
               </div>
               <div className="flex flex-col space-y-3">
                 <span className="text-zinc-900 font-bold tracking-wide uppercase text-[10px]">Navigation</span>
+                <Link href="/" className="text-zinc-500 font-medium hover:text-zinc-900 transition">Accueil</Link>
                 <Link href="/annuaire" className="text-zinc-500 font-medium hover:text-zinc-900 transition">Annuaire</Link>
                 <Link href="/aide" className="text-zinc-500 font-medium hover:text-zinc-900 transition">Aide</Link>
               </div>
               <div className="flex flex-col space-y-3">
                 <span className="text-zinc-900 font-bold tracking-wide uppercase text-[10px]">À propos</span>
-                <span className="text-zinc-400 font-medium">ENEAM — 2026</span>
+                <p className="text-zinc-500 font-medium leading-relaxed max-w-xs">
+                  Un annuaire simple et gratuit, pensé pour mettre en lumière le tissu
+                  entrepreneurial local et faciliter la mise en relation.
+                </p>
               </div>
             </div>
             <div className="max-w-7xl mx-auto px-6 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-500 font-medium">
-              <p>&copy; {new Date().getFullYear()} StageLink — ENEAM.</p>
+              <p>&copy; {new Date().getFullYear()} StageLink. Tous droits réservés.</p>
             </div>
           </footer>
         )}
