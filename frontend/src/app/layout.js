@@ -22,6 +22,7 @@ const TOTAL_IMAGES = 10;
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   const isCpanel = pathname.startsWith("/cpanel");
+  const isHome = pathname === "/";
 
   const [slideIndex, setSlideIndex] = useState(0);
   const [noTransition, setNoTransition] = useState(false);
@@ -159,7 +160,7 @@ export default function RootLayout({ children }) {
           </header>
         )}
 
-        {!isCpanel && (
+        {isHome && (
           <div className="relative w-full h-[420px] sm:h-[540px] md:h-[620px] bg-zinc-900 overflow-hidden">
             <div
               className="absolute inset-0 flex h-full"

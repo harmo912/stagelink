@@ -51,7 +51,7 @@ export default function CpanelPage() {
   verifierToken();
 }, []);
 
-  uuseEffect(() => {
+  useEffect(() => {
   if (token) {
     fetchEntreprises();
     fetchDomaines();
